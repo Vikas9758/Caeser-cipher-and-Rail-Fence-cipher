@@ -1,0 +1,126 @@
+import java.util.*;
+public class MyClass 
+{
+    static String c="";   //String to store the ciphered text
+
+     static int j=0;   //This integer is used to go up and down in matrix 
+
+     
+    public static void main(String args[])
+    {
+     
+      Scanner sc=new Scanner(System.in);
+      System.out.println("Enter text and key");
+      String o=sc.nextLine();  //taking input of plain text from user
+      int key=sc.nextInt();    //taking input of key from user
+      String e=Encryption(o,key);
+      System.out.println(Decryption(e,key));
+    }  
+    static String Encryption(String o,int key)
+    {
+   
+      int row=key,col=o.length();
+     char[][] ch=new char[row][col];  //key*length matrix to store the text in zig zag way
+         boolean check=false;        //this variable tells whether to go up or down in matrix
+
+      for(int i=0;i<row;i++)
+      {
+          for(int k=0;k<col;k++)     
+          {
+              ch[i][k]='#';  //initialising every element of matrix as "#"
+          }
+         
+      }
+      for(int i=0;i<col;i++)
+      {
+         if(j==0 || j==key-1)
+         check=!check;
+        ch[j][i]=o.charAt(i);   //storing the each text character on diagonal of the matrix ch in zig zag way
+        if(check)  //if check=true then the traversing will 
+        j++;
+        else
+        j--;
+       
+      }
+      for(int i=0;i<row;i++)
+      {
+          for(int k=0;k<col;k++)
+          {
+              System.out.print(ch[i][k]+" ");  //Printing the matrix after storing the plain text in it
+          }
+          System.out.println();
+      }
+      for(int i=0;i<row;i++)
+      {
+          for(int k=0;k<col;k++)
+          {
+            if(ch[i][k]!='#')  //storing the ciphered text in a string
+            c=c+ch[i][k];
+          }
+         
+      }
+      return c;  returning the ciphered text
+    }
+     static String Decryption(String s,int key)  //Function for decryption
+     {
+         System.out.println(s+"   Ciphered Text");
+         int m=0;
+         j=0;
+         c="";
+         String x=s+"";
+         int row=key,col=x.length();
+        char[][] ch=new char[row][col];
+         boolean check=false;
+      for(int i=0;i<row;i++)
+      {
+          for(int k=0;k<col;k++)
+          {
+              ch[i][k]=0; 
+          }
+         
+      }
+      for(int i=0;i<col;i++)
+      {
+         if(j==0 || j==key-1)
+         check=!check;
+        ch[j][i]='*';  //initializing diagonal elemnts of the matrix as "*"
+        if(check)
+        j++;
+        else
+        j--;
+       
+      }
+      for(int i=0;i<row;i++)
+      {
+          for(int k=0;k<col;k++)
+          {
+            if(ch[i][k]=='*')
+            ch[i][k]=x.charAt(m++); //storing the ciphered text on the diagonal elements
+          }
+       
+      }
+      for(int i=0;i<row;i++)
+      {
+          for(int k=0;k<col;k++)
+          {
+           
+            System.out.print(ch[i][k]+" ");  //Printing the Matrix after storing the ciphered text in matrix
+             }
+        System.out.println();
+      }
+      check=false;
+      j=0;
+      for(int i=0;i<col;i++)
+      {
+            if(j==0 || j==key-1)
+            check=!check;
+          c=c+ch[j][i];    //Storing the characters of the text while reading the matrix diagonally 
+          if(check)
+          j++;
+          else
+          j--;
+         
+      }
+      return c;
+     }
+    }
